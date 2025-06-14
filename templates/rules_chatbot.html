@@ -1,0 +1,102 @@
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='chatbot_styles.css') }}">
+<script>
+    const SESSION_ID = "" + Math.random() * 1000;
+    const BOT_WORKFLOW_ID = "{{ bot_workflow_id }}";
+    const RUN_WORKFLOW_ENDPOINT = "https://api.tryneum.com/v1/run-workflow";
+    const REQUEST_HEADERS = {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
+
+    async function ask_bot() {
+        setErrorMessageVisibility(/*hideMessage=*/true);
+        const input = document.getElementById("question_input");
+        let button = document.getElementById("send_btn");
+        button.disabled = true;
+        const question = input.value;
+        add_conversation_element(question, /*is_human=*/true)
+        const request = {
+            headers: REQUEST_HEADERS,
+            method: "POST",
+            body: JSON.stringify({
+                "user_message": question,
+                "session_id": SESSION_ID,
+                "workflow_id": BOT_WORKFLOW_ID
+            })
+        }
+        try {
+            const resp = await fetch(RUN_WORKFLOW_ENDPOINT, request);
+            const jsonData = await resp.json();
+            add_conversation_element(jsonData['output'], /*is_human=*/false)
+        } catch (error) {
+            setErrorMessageVisibility(/*hideMessage=*/false);
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    function setErrorMessageVisibility(hideMessage) {
+        const errorMessage = document.getElementById("error-message");
+        errorMessage.hidden = hideMessage;
+    }
+
+    function add_conversation_element(text, is_human) {
+        const messageClass = is_human ? "human-message" : "bot-message";
+        const messageContainerClass = is_human ? "human-message-container" : "bot-message-container";
+
+        const message = document.createElement("p");
+        message.classList.add(messageClass);
+        const messageContent = document.createTextNode(text);
+        message.appendChild(messageContent);
+
+        const messageContainer = document.createElement("div");
+        messageContainer.classList.add(messageContainerClass);
+        messageContainer.appendChild(message);
+        
+        const conversationContainer = document.getElementById("conversation-container");
+        conversationContainer.appendChild(messageContainer);
+    }
+
+</script>
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2>Luisda-Bot</h2>
+            <p>
+                This is bot is meant to help you answer questions about the rules
+                of truco. Questions should be asked in spanish as the rule book that is
+                used by the bot is written in spanish.
+            </p>
+            <label for="question_input" class="form-label">Your question here</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Cuantos puntos vale una flor?" id="question_input">
+                <button class="btn btn-outline-secondary" type="button" id="send_btn" onclick="ask_bot()">Send</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Your conversation with Luisda-Bot</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Your conversation with Luisda-Bot will show up here, ask away!</h6>
+                    <div id="conversation-container">
+                        <!-- message in this section will be dynamically generated based on the conversation with the bot. -->
+                    </div>
+                    <p id="error-message" hidden="true">
+                        Something went wrong, please reload and try again!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 offset-md-3 text-center">
+            Powered by our friends at <a href="https://www.tryneum.com">tryneum.com</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

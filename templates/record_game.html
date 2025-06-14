@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <h3>Winner Team</h3>
+            {{ form.winner1.label(class="control-label") }}
+            {{ form.winner1(class='form-control') }}
+            {{ form.winner2.label(class="control-label") }}
+            {{ form.winner2(class='form-control') }}
+        </div>
+        <div class="form-group">
+            <h3>Loser Team</h3>
+            {{ form.loser1.label(class="control-label") }}
+            {{ form.loser1(class='form-control') }}
+            {{ form.loser2.label(class="control-label") }}
+            {{ form.loser2(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class='btn btn-primary') }}
+        </div>
+    </form>    
+</div>
+{% endblock %}

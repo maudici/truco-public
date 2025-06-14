@@ -1,0 +1,25 @@
+div.human-message-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+p.human-message {
+    display: flex;
+    justify-content: flex-start;
+    border: thick double blue;
+    width: 80%;
+}
+
+div.bot-message-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+p.bot-message {
+    display: flex;
+    justify-content: flex-end;
+    border: thick double green;
+    width: 80%;
+}

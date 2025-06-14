@@ -1,0 +1,38 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0;
+    overflow-x: hidden;
+}
+
+.sidebar-sticky {
+    position: sticky;
+    top: 48px;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 60%; /* adjust this value to make the table narrower or wider */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: right; /* right-align the table values */
+}
+
+th {
+    padding-top: 12px;
+    text-align: center; /* center-align the table headers */
+    background-color: #add8e6; /* light blue color */
+    color: white;
+}

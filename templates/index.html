@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="jumbotron text-center bg-white">
+    <h1 class="display-4" style="font-size: 3rem; line-height: 1.2;">
+        <span style="white-space: nowrap;">Bienvenidos a la</span>
+    </h1>
+    <img src="{{ url_for('static', filename='images/ATSLogo.jpeg') }}" alt="Image" class="img-fluid" style="max-width: 300px;">
+</div>
+
+<div class="container">
+    <h2>Los miembros</h2>
+    <table id="players-table" class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+            <tr>
+                <td>{{ player.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#players-table').DataTable({
+            "order": [[ 0, "asc" ]] // Sort by Name in ascending order
+        });
+    });
+</script>
+{% endblock %}

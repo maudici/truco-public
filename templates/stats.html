@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Player Stats</h1>
+            <table id="stats-table" class="table table-bordered">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Games Played</th>
+                        <th scope="col">Games Won</th>
+                        <th scope="col">Games Lost</th>
+                        <th scope="col">Flores Quemadas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for player_stats in stats %}
+                    <tr>
+                        <td>{{ player_stats.name }}</td>
+                        <td>{{ player_stats.games_played }}</td>
+                        <td>{{ player_stats.games_won }}</td>
+                        <td>{{ player_stats.games_lost }}</td>
+                        <td>{{ player_stats.flowers }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
